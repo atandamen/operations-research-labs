@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <vector>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
 
@@ -40,21 +41,23 @@ public:
 
             int augFlow = int(1e9);
             
-            int ptr = t;
-            while (ptr != s)
+            int p = t;
+            while (p != s)
             {
-                augFlow = min(augFlow, _c[path[ptr]][ptr]);
-                ptr = path[ptr];
+                augFlow = min(augFlow, _c[path[p]][p]);
+                p = path[p];
             }
 
-            ptr = t;
-            while (ptr != s)
+            p = t;
+            while (p != s)
             {
-                _c[path[ptr]][ptr] -= augFlow;
-                _c[ptr][path[ptr]] += augFlow;
+                _c[path[p]][p] -= augFlow;
+                _c[p][path[p]] += augFlow;
 
-                ptr = path[ptr];
+                p = path[p];
             }
+
+			printPath(s, t, path);
 
             print();
 
@@ -90,6 +93,29 @@ public:
 
         return used[t];
     }
+
+	void printPath(int s, int t, vector<int>& rpath)
+	{
+		vector<int> path;
+		
+		int p = t;
+		path.push_back(p + 1); // ( ... + 1 ) cause I want start from 1 
+		while (p != s) {
+			path.push_back(rpath[p] + 1); // ( ... + 1 ) cause I want start from 1 
+			p = rpath[p];
+		}
+		reverse(path.begin(), path.end());
+
+
+		cout << "path: ";
+
+		cout << path[0];
+		for (int i = 1; i < path.size(); ++i)
+			cout << " -> " << path[i];
+
+		cout << endl;
+
+	}
 
     void print()
     {
