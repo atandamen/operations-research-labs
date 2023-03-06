@@ -59,7 +59,7 @@ public:
 	{
 		assert(p.size() == _n);
 
-		vector<T> v(_n, T(0));
+		vector<T> v;
 		for (int i = 0; i != _n; i++) 
 		{
 			T m = T(0);
@@ -74,6 +74,14 @@ public:
 		return v;
 	}
 };
+
+template<typename T>
+void printRow(vector<T>& row, int w = 4)
+{
+	for (auto v : row)
+		cout << v << " ";
+	cout << endl;
+}
 
 int main()
 {
@@ -92,14 +100,16 @@ int main()
 		}
     }
 
+	int m{ 0 };
+	cin >> m;
+	
 	vector<float> p { 1, 0, 0, 0 };
 	
-	auto next = solver.SingleStep(p);
-	
-	cout << next[0] << " " << next[1] << " " 
-		 << next[2] << " " << next[3] << endl;
-
-#if 0
-    graph.Print();
-#endif
+	for (int i = 0; i != m+1; i++) {
+		cout << "  Шаг #" << i << endl;
+		
+		printRow(p);
+		
+		p = solver.SingleStep(p);	
+	}
 }
